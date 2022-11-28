@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Budget UI',
       theme: ThemeData(
+        colorScheme: const ColorScheme.light(
+          primary: Colors.green,
+        ),
         primaryColor: Colors.green,
       ),
       home: const HomeScreen(),
