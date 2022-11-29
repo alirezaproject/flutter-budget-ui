@@ -1,6 +1,7 @@
 import 'package:budget_ui/data/data.dart';
 import 'package:budget_ui/helpers/color_helper.dart';
 import 'package:budget_ui/models/category_model.dart';
+import 'package:budget_ui/screens/category_screen.dart';
 import 'package:budget_ui/widgets/bar_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -13,68 +14,72 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   _buildCategory(Category category, double totalAmountSpent) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      height: 100,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.black12, offset: Offset(0, 2), blurRadius: 6)
-          ]),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              category.name,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-            Text(
-              "\$${(category.maxAmount - totalAmountSpent).toStringAsFixed(2)} / \$${category.maxAmount}",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final double maxBarWidth = constraints.maxWidth;
-            final double percent =
-                (category.maxAmount - totalAmountSpent) / category.maxAmount;
-            double barWidth = percent * maxBarWidth;
-
-            if (barWidth < 0) {
-              barWidth = 0;
-            }
-
-            return Stack(
-              children: [
-                Container(
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(15),
+    return GestureDetector(
+     
+      onTap: () => Navigator.push(context,  MaterialPageRoute(builder: (context) => CategoryScreen(category:category))),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                  color: Colors.black12, offset: Offset(0, 2), blurRadius: 6)
+            ]),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                category.name,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                "\$${(category.maxAmount - totalAmountSpent).toStringAsFixed(2)} / \$${category.maxAmount}",
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final double maxBarWidth = constraints.maxWidth;
+              final double percent =
+                  (category.maxAmount - totalAmountSpent) / category.maxAmount;
+              double barWidth = percent * maxBarWidth;
+    
+              if (barWidth < 0) {
+                barWidth = 0;
+              }
+    
+              return Stack(
+                children: [
+                  Container(
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
-                ),
-                Container(
-                  height: 20,
-                  width: barWidth,
-                  decoration: BoxDecoration(
-                    color: getColor(context, percent),
-                    borderRadius: BorderRadius.circular(15),
+                  Container(
+                    height: 20,
+                    width: barWidth,
+                    decoration: BoxDecoration(
+                      color: getColor(context, percent),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
-                ),
-              ],
-            );
-          },
-        ),
-      ]),
+                ],
+              );
+            },
+          ),
+        ]),
+      ),
     );
   }
 
